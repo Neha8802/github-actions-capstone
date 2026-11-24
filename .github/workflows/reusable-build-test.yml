@@ -1,0 +1,46 @@
+name: reusable workflow for build-test
+
+on: 
+  workflow_call:
+    inputs:
+      python_version: 
+        type: string
+        required: true
+        default: '3.12'
+      run_test:
+        required: true
+        type: boolean
+        default: true
+    outputs:
+      run_test_output:
+        value: ${{ jobs.reusable-build-test.outputs.test_result }}
+
+jobs:
+  reusable-build-test:
+    runs-on: ubuntu-latest
+    outputs:
+      test_result: ${{ steps.run_test_step.outputs.my_step_output }}
+      
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setting up a language runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: install dependencies
+        run: pip install -r requirements.txt
+
+      - name: run test
+        id: run_test_step
+        if: ${{ inputs.run_test == true }} 
+        continue-on-error: true
+        run: |
+          if ./test_health.sh; then
+            echo "my_step_output==passed" >> "$GITHUB_OUTPUT"
+          else
+            echo "my_step_output==failed" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
