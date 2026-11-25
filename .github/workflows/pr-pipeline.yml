@@ -10,8 +10,8 @@ jobs:
   pr-pipeline:
     uses: ./.github/workflows/reusable-build-test.yml
     with:
+      python-version: '3.12'
       run_test: true
-      python-version: true
 
   pr-comment:
     runs-on: ubuntu-latest
