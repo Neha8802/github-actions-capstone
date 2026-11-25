@@ -38,7 +38,7 @@ jobs:
         if: ${{ inputs.run_test == true }} 
         continue-on-error: true
         run: |
-          if ./test_health.sh; then
+          if bash ./test_health.sh; then
             echo "my_step_output==passed" >> "$GITHUB_OUTPUT"
           else
             echo "my_step_output==failed" >> "$GITHUB_OUTPUT"
