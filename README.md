@@ -20,4 +20,4 @@ A Flask web application built as part of the Day 48 GitHub Actions capstone proj
 pip install -r requirements.txt
 ./test_health.sh
 
-hi testing por pr-pipeline yml
+hi testing for pr-pipeline yml
