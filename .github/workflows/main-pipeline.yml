@@ -17,7 +17,7 @@ jobs:
     uses: ./.github/workflows/reusable-docker.yml
     with:
       image_name: flask-app
-      image_tag: ${{ format('sha-{0}', substring(github.sha, 0, 7)) }}
+      image_tag: latest
     secrets:
       username: ${{ vars.DOCKER_USERNAME }}
       password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -28,5 +28,5 @@ jobs:
     environment: production
     steps:
       - name: deploying image to prod
-        run:  |
-          echo "deploying image: ${{ needs.reusable-docker-workflow.outputs.image_url }} to prod"
+        run: |
+         echo "deploying image: ${{ needs.reusable-docker-workflow.outputs.image_url }} to prod"
