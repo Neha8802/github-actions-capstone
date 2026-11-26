@@ -1,0 +1,31 @@
+name: main-pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  main-pipeline:
+    uses: ./.github/workflows/reusable-build-test.yml
+    with:
+      python_version: '3.12'
+      run_test: true
+
+  reusable-docker-workflow:
+    needs: main-pipeline
+    uses: ./.github/workflows/reusable-docker.yml
+    with:
+      image_name: flask-app
+      image_tag: ${{ format('sha-{0}', substring(github.sha, 0, 7)) }}
+    secrets:
+      username: ${{ vars.DOCKER_USERNAME }}
+      password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  deploy_job:
+    needs: reusable-docker-workflow
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: deploying image to prod
+        run: echo "deploying image: ${{ needs.reusable-docker-workflow.outputs.image_url }} to prod"
