@@ -31,8 +31,8 @@ jobs:
       - name: docker login
         uses: docker/login-action@v3
         with:
-          username: ${{ vars.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.username }}
+          password: ${{ secrets.password }}
 
       - name: Build and push the image
         id: build_image
@@ -41,11 +41,11 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ vars.DOCKER_USERNAME }}/${{ inputs.image_name }}:latest
-            ${{ secrets.DOCKERHUB_TOKEN }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
+            ${{ secrets.username }}/${{ inputs.image_name }}:latest
+            ${{ secrets.username }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
 
       - name: image_url with the full image path
         id: image_path
         run: |
-          FULL_IMAGE="${{ vars.DOCKER_USERNAME }}/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+          FULL_IMAGE="${{ secrets.username }}/${{ inputs.image_name }}:${{ inputs.image_tag }}"
           echo "image_url=$FULL_IMAGE" >> "$GITHUB_OUTPUT"
