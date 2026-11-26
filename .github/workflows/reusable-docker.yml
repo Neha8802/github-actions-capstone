@@ -41,11 +41,11 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.username }}/${{ inputs.image_name }}:latest
-            ${{ secrets.username }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
+            ${{ vars.DOCKER_USERNAME }}/${{ inputs.image_name }}:latest
+            ${{ secrets.DOCKERHUB_TOKEN }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
 
       - name: image_url with the full image path
         id: image_path
         run: |
-          FULL_IMAGE="${{ secrets.username }}/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+          FULL_IMAGE="${{ vars.DOCKER_USERNAME }}/${{ inputs.image_name }}:${{ inputs.image_tag }}"
           echo "image_url=$FULL_IMAGE" >> "$GITHUB_OUTPUT"
