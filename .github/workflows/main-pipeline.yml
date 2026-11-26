@@ -19,7 +19,7 @@ jobs:
       image_name: flask-app
       image_tag: latest
     secrets:
-      username: ${{ vars.DOCKERHUB_USERNAME }}
+      username: ${{ vars.DOCKER_USERNAME }}
       password: ${{ secrets.DOCKERHUB_TOKEN }}
 
   deploy_job:
