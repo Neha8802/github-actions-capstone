@@ -28,4 +28,5 @@ jobs:
     environment: production
     steps:
       - name: deploying image to prod
-        run: echo "deploying image: ${{ needs.reusable-docker-workflow.outputs.image_url }} to prod"
+        run:  |
+          echo "deploying image: ${{ needs.reusable-docker-workflow.outputs.image_url }} to prod"
