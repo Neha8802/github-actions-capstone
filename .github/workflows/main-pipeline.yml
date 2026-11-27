@@ -30,11 +30,11 @@ jobs:
       - name: scanning docker image via trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image_ref: ${{ vars.DOCKER_USERNAME }}/flask-app:${{ github.sha }}
+          image-ref: ${{ vars.DOCKER_USERNAME }}/flask-app:${{ github.sha }}
           format: "table"
           output: "trivy-output.txt"
           severity: "CRITICAL"
-          exit: "1"
+          exit-code: "1"
 
       - name: create artifact
         if: always()
