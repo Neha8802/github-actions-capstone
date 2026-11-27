@@ -13,6 +13,17 @@ jobs:
       python_version: '3.12'
       run_test: true
 
+  dependency_review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check Dependencies for Vulnerabilities
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: critical
+         
   pr-comment:
     runs-on: ubuntu-latest
     needs: pr-pipeline
