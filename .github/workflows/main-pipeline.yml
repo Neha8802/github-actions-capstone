@@ -30,9 +30,9 @@ jobs:
       - name: scanning docker image via trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image_name: ${{ vars.DOCKER_USERNAME }}/flask-app:${{ github.sha }}
+          image_ref: ${{ vars.DOCKER_USERNAME }}/flask-app:${{ github.sha }}
           format: "table"
-          output: "trivy.output.txt"
+          output: "trivy-output.txt"
           severity: "CRITICAL"
           exit: "1"
 
@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: flask-artifact-report
-          path: trivy.output.txt
+          path: "trivy-output.txt"
 
   deploy_job:
     needs: reusable-docker-workflow
