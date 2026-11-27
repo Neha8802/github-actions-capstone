@@ -30,7 +30,7 @@ jobs:
 
       - name: short sha
         id: image_sha
-        run: echo "short_sha=$github_sha::}" >> $GITHUB_OUTPUT
+        run: echo '{short_sha=$github_sha::7}' >> $GITHUB_OUTPUT
         
       - name: scanning docker image via trivy
         uses: aquasecurity/trivy-action@master
