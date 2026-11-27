@@ -22,6 +22,27 @@ jobs:
     secrets:
       password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+
+  Devsecops-trivy-scan:
+    runs-on: ubuntu-latest
+    needs: main-pipeline
+    steps:
+      - name: scanning docker image via trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image_name: ${{ vars.DOCKER_USERNAME }}/flask-app:${{ github.sha }}
+          format: "table"
+          output: "trivy.output.txt"
+          severity: "CRITICAL"
+          exit: "1"
+
+      - name: create artifact
+        if: always()
+        uses: action/upload-artifsct@v4
+        with:
+          name: flask-artifact-report
+          path: trivy.output.txt
+
   deploy_job:
     needs: reusable-docker-workflow
     runs-on: ubuntu-latest
